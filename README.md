@@ -15,13 +15,6 @@
 ## **Input File Format**
 - Each line in words.txt contains a single word.
 - The program reads all words and groups them based on their anagram equivalence.
-
-**Example:**
-Elvis
-lives
-silent
-listen
-enlist
 ---
 
 ## **Expected Output Format**
