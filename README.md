@@ -14,9 +14,8 @@
 
 ## **Input File Format**
 - Each line in words.txt contains a single word.
-- The program reads all words and groups them based on their anagram equivalence.
-
-Example input:  
+- The program reads all words and groups them based on their anagram equivalence.  
+**Example input:**  
 Elvis  
 lives  
 silent  
@@ -25,9 +24,8 @@ enlist
 ---
 
 ## **Expected Output Format**
-- The program prints sets of words that are anagrams of each other, preserving their original case.
-
-Example output:   
+- The program prints sets of words that are anagrams of each other, preserving their original case.  
+**Example output:**   
 [Elvis, lives]  
 [silent, listen, enlist]  
 ---
