@@ -1,0 +1,8 @@
+The worst-case running time of my anagram detection algorithm is Θ(nklogk), where n is the number of words in the input file and k is the maximum length of a word.
+
+Explanation:
+- Sorting each word: To group anagrams, I sort each word alphabetically.  Since sorting a word of length k takes Θ(klogk) time, this step is the most computationally expensive.
+- Processing all words: Since there are n words in the file, and each word needs to be sorted, the total time for sorting all words is Θ(nklogk).
+- Using a HashMap: I store the sorted words as keys in a HashMap, where adding and retrieving values happens in average-case Θ(1) time. This step is efficient and doesn't contribute significantly to the complexity.
+
+Overall, the sorting step dominates the time complexity, making the worst-case performance Θ(nklogk).

@@ -3,10 +3,11 @@
  /* Login ID: 017353518                                           */
  /* CS 3310, Spring 2025                                          */
  /* Programming Assignment 2                                      */    
- /* Prog2 class: all sets of anagrams of words in the file        */
+ /* Prog2 class: detect all sets of anagrams of words in the file */
 /******************************************************************/
 
 import java.io.*;
+import java.text.Normalizer;
 import java.util.*;
 
 public class Prog2 {
@@ -33,6 +34,11 @@ public class Prog2 {
 
         // print the detected anagram groups
         printAnagrams(anagrams);
+
+        // store and print thr total number of anagram sets detected
+        int anagramSetCount = anagrams.size();
+        System.out.println("Total number of anagram sets: " + anagramSetCount);
+
     }
 
     /***************************************************************/
@@ -59,7 +65,7 @@ public class Prog2 {
                 word = word.trim(); // reomve any leading/trailing whitespace
 
                 // convert word to lowercas and sort its letters to form the key
-                String sortedWord = sortString(word.toLowerCase());
+                String sortedWord = sortString(normalizeWord(word));
                 
                 // group words by their sorted key (ignoring case)
                 anagrams.computeIfAbsent(sortedWord, k -> new ArrayList<>()).add(word);
@@ -68,8 +74,32 @@ public class Prog2 {
             // handle errors if the file cannot be read
             System.err.println("Error reading file: " + e.getMessage());
         }
+
+        // remove anagrams that only contain one word
+        anagrams.entrySet().removeIf(entry -> entry.getValue().size() <= 1);
         
         return anagrams;
+    }
+    
+    /***************************************************************/
+    /* Method: normalizeWord                                       */
+    /* Purpose: Removes punctuation and diacritics from the input  */
+    /*          word and converts it to lowercase for uniform      */
+    /*          processing.                                        */
+    /* Parameters:                                                 */   
+    /* word (String): The word to be normalized                    */
+    /* Returns:                                                    */ 
+    /* (String): A new normalized string without punctuaion and    */
+    /*           accents                                           */
+    /***************************************************************/
+    public static String normalizeWord(String word) {
+        // convert word to lowercase and decompose accented characters
+        String normalizedWord = Normalizer.normalize(word.toLowerCase(), Normalizer.Form.NFD);
+
+        normalizedWord = normalizedWord.replaceAll("\\p{Mn}", ""); // remove diacritics
+        normalizedWord = normalizedWord.replaceAll("\\p{P}", ""); // remove punctuation
+        
+        return normalizedWord;
     }
 
     /***************************************************************/
@@ -101,18 +131,12 @@ public class Prog2 {
     /***************************************************************/
     public static void printAnagrams(Map<String, List<String>> anagrams) {
         System.out.println("Anagram sets: ");
-        boolean found = false; // flag to check if any anagrams were found
+        int setNumber = 1;
 
         for (List<String> anagramSet : anagrams.values()) {
             // only print groups with more than one word (actual anagrams)
             if (anagramSet.size() > 1) {
-                found = true;
-                System.out.println(anagramSet); // print the set of anagrams
-            }
-            
-            // if no anagrams were found, print a message
-            if (!found) {
-                System.out.println("No anagrams found.");
+                System.out.println("Set " + setNumber++ + ": " + anagramSet); // print the set of anagrams
             }
         }
     }
